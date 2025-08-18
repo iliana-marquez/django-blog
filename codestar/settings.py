@@ -29,14 +29,6 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DYNO' not in os.environ
 
-# test: Temporary debugging prints
-print("="*50)
-print(f"DYNO exists: {'DYNO' in os.environ}")
-print(f"DYNO value: {os.environ.get('DYNO', 'NOT SET')}")
-print(f"DEBUG is: {DEBUG}")
-print("="*50)
-
-
 ALLOWED_HOSTS = [
     '.herokuapp.com', '127.0.0.1',
 ]
