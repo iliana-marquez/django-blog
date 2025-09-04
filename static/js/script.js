@@ -1,1 +1,0 @@
-console.log("My js script is working");
