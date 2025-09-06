@@ -10,7 +10,7 @@ class TestBlogViews(TestCase):
     def setUp(self):
         self.user = User.objects.create_superuser(
             username="myUsername",
-            password="myPassword",  
+            password="myPassword",
             email="test@test.com"
         )
         self.post = Post(
@@ -32,3 +32,22 @@ class TestBlogViews(TestCase):
         self.assertIn(b"Blog title", response.content)
         self.assertIn(b"Blog content", response.content)
         self.assertIsInstance(response.context['comment_form'], CommentForm)
+
+    def test_succesful_comment_submission(self):
+        """Test for posting a comment on a post"""
+        self.client.login(
+            username="myUsername",
+            password="myPassword",
+        )
+        post_data = {
+            'body': 'this is my comment'
+        }
+        response = self.client.post(reverse(
+            'post_detail', args=['blog-title']),
+            post_data
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(
+            b'Comment submitted and waiting for approval',
+            response.content
+        )
