@@ -11,7 +11,7 @@ class TestAboutView(TestCase):
             content="this text describes me",
         )
         self.about.save()
-    
+
     def test_render_about_page_with_collaborate_form(self):
         response = self.client.get(reverse(
             'about'
@@ -22,3 +22,20 @@ class TestAboutView(TestCase):
         self.assertIn(b"this text describes me", response.content)
         self.assertIsInstance(
             response.context['collaborate_form'], CollaborateForm)
+
+    def test_succesful_collaborate_request_submission(self):
+        """Test for submitting a collaborate request"""
+        post_data = {
+            'name': 'iliana',
+            'email': 'test@test.com',
+            'message': 'Let´s Collaborate!',
+        }
+        response = self.client.post(reverse(
+            'about'),
+            post_data
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(
+            b'Collaboration request received!',
+            response.content
+        )
